@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en/ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/tasks.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="wrapper-third">
+    <div class="wrapper-third__block">
+        <label for="month">Enter month</label>
+        <input type="text" name="month" id="month" class="wrapper-third__input">
+        <label for="score">Enter score</label>
+        <input type="text" name="score" id="score" class="wrapper-third__input">
+    </div>
+    <div class="wrapper-third__block">
+        <button class = "wrapper-third__button">Check</button>
+        <p class="wrapper-third__result"></p>
+    </div>
+</div>
+<script>
+    'use string'
+    // Задача. Задача. Користувач задає місяць навчання учня (перевіряти чи є числом, чи від 1 до 12, чи не канікули)
+    // та оцінку (перевіряти чи є числом, чи від 1 до 100). Вивести чи зможе він виправити оцінку
+    // (якщо оцінка погана і це не останній місяць у семестрі) . Обробку усіх помилок зробити з використанням відповідних класів.
+    class IsNotCorrectValue extends Error{
+       constructor() {
+           super()
+           this.name = 'IsNotCorrectValue'
+           this.message = 'You try to enter incorrect month'
+       }
+    }
+    class IsNotANumber extends Error{
+        constructor() {
+            super()
+            this.name = 'IsNotANumber'
+            this.message = 'Value is not a number'
+        }
+    }
+    class isHolidayMonth extends Error{
+        constructor() {
+            super()
+            this.name = 'isHolidayMonth'
+            this.message = 'This is holiday month. Nobody wants to work'
+        }
+    }
+    class NoNeedToChangeScore extends Error{
+        constructor() {
+            super()
+            this.name = 'NoNeedToChangeScore'
+            this.message = 'You score is High. No need to change it'
+        }
+    }
+    class LastMonthOfTheYear extends Error{
+        constructor() {
+            super()
+            this.name = 'LastMonthOfTheYear'
+            this.message = 'This is December, month when nobody is available so unfortunately you will not be able to correct your score'
+        }
+    }
+
+
+
+    const button = document.querySelector('.wrapper-third__button')
+    const monthInput = document.getElementById('month')
+    const scoreInput = document.getElementById('score')
+    const result = document.querySelector('.wrapper-third__result')
+
+    function checkProperties() {
+        try{
+            if(monthInput.value < 1 || monthInput.value > 12) throw new IsNotCorrectValue()
+            if(monthInput.value >=6 && monthInput.value <=8) throw new isHolidayMonth()
+            if(scoreInput.value < 1 || scoreInput.value > 100) throw new IsNotCorrectValue()
+            if(!isFinite(monthInput.value)) throw new IsNotANumber
+            if(!isFinite(scoreInput.value)) throw new IsNotANumber
+        }catch (err){
+            if(err instanceof IsNotCorrectValue){
+                result.innerHTML = err
+                scoreInput.value = 0
+                monthInput.value = 0
+            }
+            if(err instanceof isHolidayMonth){
+                result.innerHTML = err
+                monthInput.value = 0
+            }
+            if(err instanceof IsNotANumber){
+                result.innerHTML = err
+                scoreInput.value = 0
+                monthInput.value = 0
+            }
+           return false
+        }
+console.log('aaa')
+        return true
+    }
+    function checkToCorrectScore() {
+        try{
+            if(monthInput.value === '12') throw new LastMonthOfTheYear
+            if(scoreInput.value > 70) throw new NoNeedToChangeScore
+        }catch (err) {
+            if(err instanceof LastMonthOfTheYear){
+                result.innerHTML = err
+            }
+            if(err instanceof NoNeedToChangeScore){
+                result.innerHTML = err
+            }
+            return false
+        }
+        result.innerHTML = 'You are welcome to correct your score. Good luck!'
+    }
+
+
+    function isPossibleToChangeScore() {
+        button.addEventListener('click',()=>{
+              if(checkProperties()){
+                  checkToCorrectScore()
+              }
+
+        })
+    }
+    isPossibleToChangeScore()
+</script>
+</body>
+</html>

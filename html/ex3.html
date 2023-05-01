@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/tasks.css">
+    <title>Document</title>
+
+</head>
+<body>
+<!--<div class="wrapper-forth">
+
+    <div class="wrapper-forth__container" >
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+
+    </div>
+
+    <div class="wrapper-forth__container">
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+
+    </div>
+
+    <div class="wrapper-forth__container">
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+        <button class="wrapper-forth__button"></button>
+    </div>
+
+</div>-->
+<div class="wrapper">
+
+</div>
+
+
+<script>
+    'use strict'
+    // Задача 4. Дано 3 таблиці розмірності 3*3 з випадковими числами. Якщо відбувається клік на якійсь із клітинок,
+    // то до відповідної таблиці додається червона рамка (спробуйте додати можливість відображення кількості
+    // кліків біля назви таблиці з використанням відповідно доданого для цього атрибута).
+
+
+
+/*    function getRandomNumber(min,max) {
+       return min + Math.floor(Math.random()*(max-min+1))
+    }
+
+    function setValue() {
+        const button = document.querySelectorAll('.wrapper-forth__button')
+        for (let item of button){
+            item.innerHTML = getRandomNumber(1,100)
+        }
+    }
+
+function addingBorder() {
+    const wrapper  = document.querySelectorAll('.wrapper-forth__container')
+    for(let item of wrapper){
+        let p = document.createElement('p')
+        p.classList.add('wrapper-forth__click')
+        p.style.right = '-80px'
+        item.append(p)
+
+        let click = 0
+        item.addEventListener('click',(event)=>{
+
+            if(event.target.tagName === 'BUTTON'){
+                item.classList.toggle('wrapper-forth--red')
+                click++
+                //item.setAttribute('click',`${click}`)
+                p.innerHTML = `clicked: ${click}`
+                p.classList.add('active')
+            }
+        })
+    }
+}
+
+
+    setValue()
+    addingBorder() */
+
+
+
+    class AddingBorder {
+        constructor(number = 9,tableNumber = 3) {
+            this.buttuonNumber = number
+            this.tableNumber = tableNumber
+        }
+
+        getRandomNumber(min,max){
+            return min + Math.floor(Math.random()*(max-min+1))
+        }
+        borderChanging(tableContainer,contentContainer){
+            let clickAmountDisplay = document.createElement('p')
+            contentContainer.append(clickAmountDisplay)
+            clickAmountDisplay.classList.add('wrapper__click')
+
+            let click = 0
+             tableContainer.addEventListener('click',(event)=>{
+                 if(event.target.tagName === 'BUTTON'){
+                     tableContainer.classList.toggle('wrapper__item--red')
+                     click++
+                     //tableContainer.setAttribute('click',`${click}`)
+                     clickAmountDisplay.innerHTML = `You clicked: ${click} times`
+                     clickAmountDisplay.classList.add('wrapper__click--border')
+                     //console.log(clickAmountDisplay)
+                 }
+             })
+
+        }
+
+        createElements (){
+            let contentContainer = document.createElement('div')
+            contentContainer.classList.add('wrapper__block')
+
+            let tableContainer = document.createElement('div')
+            tableContainer.classList.add('wrapper__item')
+
+            for (let i = 0; i< this.buttuonNumber;i++){
+                let button = document.createElement('button')
+                button.classList.add('wrapper__button')
+                button.innerHTML = this.getRandomNumber(1,100)
+
+                tableContainer.append(button)
+            }
+
+            this.borderChanging(tableContainer,contentContainer)
+
+
+
+
+            contentContainer.append(tableContainer)
+            //this.contentContainer.append(clickAmountDisplay)
+            return contentContainer
+        }
+        render(tc){
+            const targetContainer = document.querySelector(tc)
+
+            for(let i = 0; i < this.tableNumber; i++){
+                targetContainer.append(this.createElements())
+            }
+        }
+    }
+let obj = new AddingBorder()
+
+    obj.render('.wrapper')
+
+
+
+</script>
+</body>
+</html>

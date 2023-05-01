@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/tasks.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="wrapper-first">
+</div>
+<script>
+    'use string'
+
+    /*//Задача. Створити клас Client.
+   // Властивості:   ID ,ПІБ, Кількість грошей на рахунку
+    Методи: Додавання грошей, Зняття грошей, ToString
+
+
+    На основі цього класу створити клас GoldenClient.
+    Властивості:  ID, ПІБ, Кількість грошей на рахунку, Ліміт кредитних коштів, Відсоток за використання кредитних коштів
+    Методи: Додавання грошей, Зняття грошей, Визначення пені за використання кредитних коштів, ToString
+
+    Створити клас Bank, у якому зберігається масив клієнтів. Виконати такі операції
+    Вивести усіх простих клієнтів;
+    Вивести усіх клієнтів GoldenClient;
+    Знати сумарну кількість грошей на рахунку;*/
+
+
+
+
+   // Створити клас Client.
+        // Властивості:   ID ,ПІБ, Кількість грошей на рахунку
+     //   Методи: Додавання грошей, Зняття грошей, ToString
+
+    class NotEnoughMoney extends Error {
+        constructor() {
+            super()
+            this.name = 'NotEnoughMoney'
+            this.message = 'There is not enough money to withdraw'
+        }
+    }
+
+    class Client {
+
+        constructor(id, name, moneyAmount) {
+            this.id = id
+            this.name = name
+            this.moneyAmount = moneyAmount
+        }
+
+
+        addMoney(value) {
+            this.moneyAmount += value
+        }
+
+        withdrawMoney(value) {
+            try {
+                if (value > this.moneyAmount) throw new NotEnoughMoney()
+            } catch (err) {
+                alert(err)
+                this.moneyAmount += value
+            }
+            this.moneyAmount -= value
+        }
+
+        toString() {
+            return `${this.name}`
+        }
+    }
+
+    const commonClientsList = [
+        new Client(1,'Anna Turenko',1000),
+        new Client(2,'Kateryna Dushka',2000),
+        new Client(3,'Vasya Petrenko',3000),
+    ]
+
+
+
+
+
+    //На основі цього класу створити клас GoldenClient.
+    //    Властивості:  ID, ПІБ, Кількість грошей на рахунку, Ліміт кредитних коштів, Відсоток за використання кредитних коштів
+   // Методи: Додавання грошей, Зняття грошей, Визначення пені за використання кредитних коштів, ToString
+
+
+   class GoldenClient extends Client{
+        static moneyFee = 0.02
+       constructor(id,name,moneyAmount,creditLimit) {
+           super(id,name,moneyAmount)
+           this.creditLimit = creditLimit
+       }
+       addMoney(value) {
+           super.addMoney(value);
+       }
+       withdrawMoney(value) {
+           super.withdrawMoney(value);
+       }
+       getMoneyFee(){
+           return this.creditLimit * GoldenClient.moneyFee
+       }
+       toString() {
+           return `${this.name}. His(her) credit limit is ${this.creditLimit}$. His(her) fee for withdrawing credit money is ${this.getMoneyFee()}$`
+      }
+   }
+
+
+    const goldenClientsList = [
+        new GoldenClient(4,'Oskar Lidström',6000,4000),
+        new GoldenClient(5,'Kateryna Stelmakhova',4000,2000),
+        new GoldenClient(6,'Oleg Ryzhkin',9000,1000),
+    ]
+
+//for (let item of obj1){
+ //   document.write(item.toString())
+//}
+
+
+   // Створити клас Bank, у якому зберігається масив клієнтів. Виконати такі операції
+   // Вивести усіх простих клієнтів;
+   // Вивести усіх клієнтів GoldenClient;
+    //Знати сумарну кількість грошей на рахунку;
+    class Bank {
+        constructor(arr1,arr2) {
+            this.commonClientsList = arr1
+            this.goldenClientsList = arr2
+
+        }
+       createClientList(arr,initTitle){
+            const clientList = document.createElement('div')
+           clientList.classList.add('wrapper-first__block')
+
+            const title = document.createElement('p')
+            title.innerText = initTitle
+           title.classList.add('wrapper-first__title')
+
+
+            for(let item of arr){
+                const client = document.createElement('p')
+                client.innerHTML = `${item}`
+
+                clientList.append(client)
+            }
+           clientList.prepend(title)
+           return clientList
+        }
+        getSum(){
+            const commonClientSum = this.commonClientsList.reduce((prevSum,el)=>prevSum + el.moneyAmount,0)
+            const goldenClientSum = this.goldenClientsList.reduce((prevSum,el)=>prevSum + el.moneyAmount,0)
+
+            return commonClientSum + goldenClientSum
+        }
+
+
+        render(tc) {
+            const bankMoneyAmount = document.createElement('p')
+            bankMoneyAmount.innerHTML = `Bank total money amount: ${this.getSum()}$`
+
+            document.querySelector(tc).append(this.createClientList(this.commonClientsList,'Common Clients:'),this.createClientList(this.goldenClientsList,'Golden Clients:'),bankMoneyAmount)
+        }
+    }
+
+const clientList = new Bank(commonClientsList,goldenClientsList)
+    clientList.render('.wrapper-first')
+
+
+
+
+</script>
+
+</body>
+</html>

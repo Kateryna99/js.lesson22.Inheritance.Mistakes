@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/tasks.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="wrapper-second">
+
+
+</div>
+<script>
+    'use string'
+     // Задача. Задача. Розробити Класи
+
+    class Illustration {
+        constructor(corX,corY,imgSrc) {
+            this.corX = corX
+            this.corY = corY
+            this.imgSrc = imgSrc
+            this.interval = this.getRandomNumber(200,500)
+        }
+        getRandomNumber(min,max){
+            return min + Math.floor(Math.random()*(max-min + 1))
+        }
+        displayElements(elClass,tc){
+
+            this.img = document.createElement('img')
+            this.img.src = this.imgSrc
+            this.img.classList.add(elClass)
+            this.img.style.position = 'absolute'
+            this.img.style.left = this.corX + 'px'
+            this.img.style.top = this.corY + 'px'
+
+
+            document.querySelector(tc).append(this.img)
+
+       }
+
+       //start(func){
+         //   setInterval(()=>{
+          //      func()
+           // },this.interval)
+       //}
+    }
+
+   // House
+
+    //  --- властивості ---
+    // Координата Х
+    // Координата У
+    //шлях до зображення
+    // інтервал оновлення
+    // --- методи ---
+    // генерування елемента розмітки
+    // оновлення через вказаний інтервал (збільшення або зменшення масштабу (об’єкт не рухається)
+
+    class House extends Illustration{
+        constructor(corX,corY,imgSrc,interval) {
+            super(corX,corY,imgSrc,interval)
+        }
+        render(){
+            super.displayElements('wrapper-second__house','.wrapper-second')
+        }
+
+        houseMoving(){
+            //animation: house 1.5s ease infinite alternate;
+            //this.img.style.animationName = 'house'
+            this.img.style.animationDuration = '1.5s'
+            this.img.style.animationTimingFunction = 'ease'
+            this.img.style.animationIterationCount = 'infinite'
+            this.img.style.animationDirection = 'alternate'
+        }
+        start(){
+            setInterval(()=>{
+                this.houseMoving()
+            },this.interval)
+        }
+    }
+
+    const houseObj = new House(400,280,'../img/house.svg.png')
+
+    houseObj.render()
+    houseObj.start()
+
+
+    // Dog
+    //    --- властивості ---
+    //  Координата Х
+    // Координата У
+    // шлях до зображення
+    // інтервал оновлення
+    //--- методи ---
+    //генерування елемента розмітки
+    // оновлення через вказаний інтервал (випадкове зміщення по горизонталі (зміна координати Х))
+
+    class Dog extends Illustration{
+        constructor(corX,corY,imgSrc,interval) {
+            super(corX,corY,imgSrc,interval)
+            this.vx = this.getRandomNumber(10,15)
+        }
+        render(){
+            super.displayElements('wrapper-second__dog','.wrapper-second')
+        }
+        updatePosition(){
+            this.img.style.left = this.corX +'px'
+        }
+
+        movingDog(){
+
+            let newLeft = this.corX + this.vx
+
+            if(newLeft < 0 || newLeft > 1500)
+                this.vx = -this.vx
+
+            this.corX = newLeft
+
+            this.updatePosition()
+        }
+        start(){
+            setInterval(()=>{
+                this.movingDog()
+            },this.interval)
+        }
+    }
+    const dogObj = new Dog(0,800,'../img/dog.svg')
+
+    dogObj.render()
+    dogObj.start()
+
+    // Bird
+    //--- властивості ---
+    // Координата Х
+    // Координата У
+    // шлях до зображення
+    // інтервал оновлення
+    // --- методи ---
+    //генерування елемента розмітки
+    // оновлення через вказаний інтервал (випадкове переміщення у довільному напрямку)
+    class Bird extends Illustration{
+        constructor(corX,corY,imgSrc,interval,width) {
+            super(corX,corY,imgSrc,interval)
+            this.vx = this.getRandomNumber(5,20)
+            this.vy = this.getRandomNumber(20,40)
+
+        }
+        render(){
+            super.displayElements('wrapper-second__bird','.wrapper-second')
+        }
+        updatePosition(){
+            this.img.style.left = this.corX + 'px'
+            this.img.style.top = this.corY + 'px'
+        }
+      movingBird(){
+            let newLeft = this.corX + this.vx
+          let newTop = this.corY + this.vy
+
+          if(newLeft < 0 || newLeft + 100 > 1500)
+              this.vx = -this.vx
+          if(newTop < 0 || newTop + 100 > 400)
+              this.vy = -this.vy
+
+          this.corX = newLeft
+          this.corY = newTop
+
+          this.updatePosition()
+      }
+      start(){
+         setInterval(()=>{
+             this.movingBird()
+         },this.interval)
+      }
+    }
+    const birdObj = new Bird(10,10,'../img/bird.png')
+
+    birdObj.render()
+    birdObj.start()
+
+
+</script>
+</body>
+</html>

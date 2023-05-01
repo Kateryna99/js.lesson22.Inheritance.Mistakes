@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/tasks.css">
+    <title>Document</title>
+
+</head>
+<body>
+
+<div class="wrapper-fifth">
+
+</div>
+<script>
+    'use script'
+    // // Задача. Динамічний пошук. Є список працівників і поле пошуку. При введенні відображаються усі, які містять вказаний фрагмент
+
+    class WorkersSearch {
+        constructor(nameList) {
+            this.nameList = nameList
+            this.searchedNames = []
+        }
+        createBlocks (){
+            this.mainBlock1 = document.createElement('div')
+            this.mainBlock1.classList.add('wrapper-fifth__block')
+
+            this.mainBlock2 = document.createElement('div')
+            this.mainBlock2.classList.add('wrapper-fifth__block')
+
+            this.nameContainer1 = document.createElement('ul')
+            this.nameContainer2 = document.createElement('ul')
+
+
+            this.mainBlock1.append(this.nameContainer1)
+            this.mainBlock2.append(this.nameContainer2)
+
+            this.targetContainer.append(this.mainBlock1)
+            this.targetContainer.append(this.mainBlock2)
+        }
+        clearElement(){
+            this.nameContainer2.innerHTML = ''
+        }
+        nameSearch (title){
+            let nameBlock = document.createElement('div')
+            let label = document.createElement('label')
+            label.innerHTML = title
+
+            this.input = document.createElement('input')
+            this.input.classList.add('wrapper-fifth__input')
+            this.input.oninput= () => this.search()
+
+
+
+
+            nameBlock.append(label)
+            nameBlock.append(this.input)
+
+            return nameBlock
+        }
+        search(){
+            let word = this.input.value
+            this.searchedNames = this.nameList.filter(element => element.toLowerCase().includes(word))
+            console.log(this.searchedNames)
+
+            this.clearElement()
+
+            for(let worker of this.searchedNames){
+                this.nameContainer2.append(this.workerList(worker))
+            }
+
+        }
+
+        workerList(worker){
+            let li = document.createElement('li')
+            li.innerHTML = worker
+
+
+            // this.nameContainer.append(li)
+
+            return li
+        }
+
+        fillColumns (){
+            this.mainBlock1.prepend(this.nameSearch('Name To Search'))
+            this.mainBlock2.prepend(this.nameSearch('Searched names'))
+
+            for (let worker of this.nameList){
+                this.nameContainer1.append(this.workerList(worker))
+            }
+
+        }
+
+        render(targCon){
+            this.targetContainer = document.querySelector(targCon)
+            this.createBlocks()
+            this.fillColumns()
+        }
+    }
+
+
+    let nameList = ['Oskar Lidström','Katya Stelmakhova','Oleg Ryzhkin','Anna Turenko','Katya Dushka','Athena Tailor']
+
+    let obj = new WorkersSearch(nameList)
+    obj.render('.wrapper-fifth')
+
+
+</script>
+</body>
+</html>

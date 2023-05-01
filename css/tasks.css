@@ -1,0 +1,76 @@
+body {
+  background-color: #f8eba7;
+  color: black;
+  min-height: 100%;
+}
+
+.wrapper-first {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.wrapper-first__title {
+  font-size: 22px;
+}
+.wrapper-first p:not(:last-child) {
+  margin-bottom: 5px;
+}
+.wrapper-first p:first-child {
+  margin-bottom: 10px;
+}
+
+.wrapper-second {
+  position: relative;
+  height: 1000px;
+}
+.wrapper-second__house {
+  max-width: 400px;
+  width: 100%;
+  object-fit: contain;
+  object-position: center center;
+  animation-name: house;
+}
+@keyframes house {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.wrapper-second__dog {
+  max-width: 150px;
+  width: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+.wrapper-second__bird {
+  max-width: 100px;
+  width: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
+.wrapper-third {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.wrapper-third__block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.wrapper-third__input {
+  max-width: 150px;
+  width: 100%;
+}
+.wrapper-third__button {
+  max-width: 70px;
+  width: 100%;
+}
+
+/*# sourceMappingURL=tasks.css.map */
